@@ -1,35 +1,35 @@
-import math
+# Temperature Modeling Function
+def Temperature_modeling(a, b, c, time):
+    return a * time**2 + b * time + c
 
-def quadratic(a, b, c):
-    d = b**2 - 4*a*c
-    if d > 0:
-        r1 = (-b + math.sqrt(d)) / (2*a)
-        r2 = (-b - math.sqrt(d)) / (2*a)
-        return f"Two Real Roots: {r1:.2f}, {r2:.2f}"
-    elif d == 0:
-        r = -b / (2*a)
-        return f"One Real Root: {r:.2f}"
-    else:
-        return "No Real Roots"
+#  Version 1: Hardcoded
+a, b, c, time = 1, 5, 3, 3
+temp = Temperature_modeling(a, b, c, time)
+print(f"[V1] Temp at time {time} = {temp}")
 
-# Stage 1: Hardcoded
-print("Stage 1 - Hardcoded:")
-print(quadratic(1, -5, 6))
-
-# Stage 2: Keyboard input
-print("\nStage 2 - User Input:")
+# Version 2: Keyboard Input
 a = float(input("Enter a: "))
 b = float(input("Enter b: "))
 c = float(input("Enter c: "))
-print(quadratic(a, b, c))
+time = int(input("Enter time: "))
+temp = Temperature_modeling(a, b, c, time)
+print(f"[V2] Temp at time {time} = {temp}")
 
-# Stage 3 & 4: Read from file
-print("\nStage 3 & 4 - File Input:")
-try:
-    with open("input.txt", "r") as f:
-        lines = f.readlines()
-        for i, line in enumerate(lines):
-            a, b, c = map(float, line.strip().split())
-            print(f"Line {i+1}: {quadratic(a, b, c)}")
-except FileNotFoundError:
-    print("input.txt file not found. Please create it in the same folder.")
+#  Version 3: Read from Single-Line File
+with open("sheet_Single.txt", "w") as f:
+    f.write("2.5 3.0 1.5 4")
+with open("sheet_Single.txt", "r") as f:
+    a, b, c, time = map(float, f.readline().split())
+    time = int(time)
+temp = Temperature_modeling(a, b, c, time)
+print(f"[V3] Temp at time {time} = {temp}")
+
+# Version 4: Read from Multi-Line File
+with open("sheet_Multiple.txt", "w") as f:
+    f.write("1 2 3 1\n2 3 1 2\n")
+print("[V4] Temperatures from file:")
+for line in open("sheet_Multiple.txt"):
+    a, b, c, time = map(float, line.split())
+    time = int(time)
+    temp = Temperature_modeling(a, b, c, time)
+    print(f"  Time {time} → Temp = {temp}")
